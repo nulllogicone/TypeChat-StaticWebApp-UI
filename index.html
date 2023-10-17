@@ -19,7 +19,7 @@
     <script>
         document.getElementById('invokeApi').addEventListener('click', async () => {
             const inputText = document.getElementById('inputText').value;
-            const response = await fetch('/api/hello', {
+            const response = await fetch('/api/httpTrigger1', {
                 method: 'POST',
                 body: JSON.stringify({ text: inputText }),
                 headers: {
