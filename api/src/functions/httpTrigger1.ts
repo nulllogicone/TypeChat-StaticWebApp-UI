@@ -24,15 +24,13 @@ function processOrder(cart: Cart) {
 export async function httpTrigger1(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log(`Http function processed request for url "${request.url}"`);
 
-    // const name = request.query.get('text') || await request.text() || 'world';
-
     let prompt: string;
 
     if (request.method === "POST") {
         const requestBody = JSON.parse(await request.text());
-        prompt = requestBody.prompt || 'world';
+        prompt = requestBody.prompt || 'say something funny';
     } else {
-        prompt = request.query.get('prompt') || 'world';
+        prompt = request.query.get('prompt') || 'say something funny';
     }
 
     const response = await translator.translate(prompt);
