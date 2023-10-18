@@ -10,7 +10,7 @@ import { Cart } from "../examples/coffeeShop/src/coffeeShopSchema";
 
 
 // // TODO: use local .env file.
-dotenv.config({ path: path.join(__dirname, "../../../../.env") });
+//dotenv.config({ path: path.join(__dirname, "../../../../.env") });
 
 const model = createLanguageModel(process.env);
 const schema = fs.readFileSync(path.join(__dirname, "coffeeShopSchema.ts"), "utf8");
