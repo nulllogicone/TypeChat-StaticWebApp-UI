@@ -11,6 +11,9 @@
     "test": "echo \"No tests yet...\"",
     "poststart": "copyfiles -u 1 src/**/*Schema.ts src/**/*.txt dist"
   },
+  "engines": {
+    "node": "^18.0.0"
+  },
   "dependencies": {
     "@azure/functions": "^4.0.0",
     "@azure/static-web-apps-cli": "^1.1.4",
