@@ -24,7 +24,7 @@
                 }
             });
             const result = await response.json();
-            document.getElementById('outputText').value = result.message;
+            document.getElementById('outputText').value = JSON.stringify(result, null, 2);
         });
     </script>
 </body>

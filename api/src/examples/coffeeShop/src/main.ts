@@ -1,6 +1,9 @@
-import fs from "fs";
-import path from "path";
-import dotenv from "dotenv";
+// import fs from "fs";
+// import path from "path";
+// import dotenv from "dotenv";
+import * as fs from "fs";
+import * as path from "path";
+import * as dotenv from "dotenv";
 import { createLanguageModel, createJsonTranslator, processRequests } from "typechat";
 import { Cart } from "./coffeeShopSchema";
 
@@ -20,7 +23,7 @@ function processOrder(cart: Cart) {
 processRequests("☕> ", process.argv[2], async (request) => {
     const response = await translator.translate(request);
     if (!response.success) {
-        console.log(response.message);
+        console.log(response);
         return;
     }
     const cart = response.data;
