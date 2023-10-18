@@ -19,7 +19,7 @@ jobs:
         with:
           submodules: true
           lfs: false
-      - name: Install TypeChat
+      - name: Install TypeChat 
         run: npm install typechat
       - name: Build And Deploy
         id: builddeploy
