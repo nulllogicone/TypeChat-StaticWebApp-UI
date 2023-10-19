@@ -2,6 +2,9 @@
   "name": "statictypechatweb",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "build": "tsc",
     "postbuild": "copyfiles -u 1 src/**/*Schema.ts src/**/*.txt dist",
