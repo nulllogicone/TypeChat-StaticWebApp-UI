@@ -1,19 +1,19 @@
 {
-  "name": "api",
+  "name": "statictypechatweb",
   "version": "1.0.0",
   "description": "",
   "scripts": {
     "build": "tsc",
+    "postbuild": "copyfiles -u 1 src/**/*Schema.ts src/**/*.txt dist",
     "watch": "tsc -w",
     "clean": "rimraf dist",
-    "prestart": "npm run clean && npm run build && copyfiles -u 1 src/**/*Schema.ts src/**/*.txt dist/src",
+    "prestart": "npm run clean && npm run build && copyfiles src/**/*Schema.ts src/**/*.txt dist",
     "start": "func start",
-    "test": "echo \"No tests yet...\"",
-    "poststart": "copyfiles -u 1 src/**/*Schema.ts src/**/*.txt dist"
+    "test": "echo \"No tests yet...\""
   },
   "dependencies": {
     "@azure/functions": "^4.0.0",
-    "@azure/static-web-apps-cli": "^1.1.4",
+    "dotenv": "^16.3.1",
     "typechat": "^0.0.10"
   },
   "devDependencies": {
