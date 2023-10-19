@@ -9,14 +9,32 @@
 <body>
     <div class="container">
         <textarea id="inputText" placeholder="Enter your text here..."></textarea>
-        <button  id="invokeApi" class="button-column">Invoke API</button>
+        <div class="button-column">
+        <button  id="invokeHello" class="button">Invoke Hello</button>
+        <br />
+        <hr />
+        <button  id="invokeCoffee" class="button">Invoke Coffee</button>
+    </div>
         <textarea id="outputText" placeholder="API response will be shown here..." readonly></textarea>
     </div>
 
     <script>
-        document.getElementById('invokeApi').addEventListener('click', async () => {
+        document.getElementById('invokeHello').addEventListener('click', async () => {
             const inputText = document.getElementById('inputText').value;
             const response = await fetch('/api/httpTrigger1', {
+                method: 'POST',
+                body: JSON.stringify({ prompt: inputText }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const result = await response.json();
+            document.getElementById('outputText').value = JSON.stringify(result, null, 2);
+        });
+
+        document.getElementById('invokeCoffee').addEventListener('click', async () => {
+            const inputText = document.getElementById('inputText').value;
+            const response = await fetch('/api/httpTrigger2', {
                 method: 'POST',
                 body: JSON.stringify({ prompt: inputText }),
                 headers: {

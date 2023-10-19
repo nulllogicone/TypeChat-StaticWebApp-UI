@@ -4,7 +4,6 @@ import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/fu
 // import dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
-import * as dotenv from "dotenv";
 import { createLanguageModel, createJsonTranslator, processRequests } from "typechat";
 import { Cart } from "./coffeeShopSchema";
 

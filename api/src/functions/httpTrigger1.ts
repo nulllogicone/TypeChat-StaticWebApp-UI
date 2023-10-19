@@ -6,7 +6,7 @@ export async function httpTrigger1(request: HttpRequest, context: InvocationCont
     const name = request.query.get('name') || await request.text() || 'world';
 
     var cart = {
-        message: "hoi" + name
+        message: __dirname
     };
     
     return {
