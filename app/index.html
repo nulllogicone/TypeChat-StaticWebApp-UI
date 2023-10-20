@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sample Azure Static Web App</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
+
     <div class="container">
+        <h1>TypeChat UI</h1>
+        <div>A simple Azure Static Web App UI for the CoffeeShop example of <a
+                href="https://microsoft.github.io/TypeChat/">TypeChat</a>
+        </div>
         <textarea id="inputText" placeholder="Enter your text here..."></textarea>
-        <button  id="invokeApi" class="button-column">Invoke API</button>
+        <button id="invokeApi" class="button-column">Invoke API</button>
         <span id="spinner" style="display: none;">Loading...</span>
         <textarea id="outputText" placeholder="API response will be shown here..." readonly></textarea>
     </div>
 
     <script src="app.js"></script>
-    <!-- <script>
-        document.getElementById('invokeApi').addEventListener('click', async () => {
-            const inputText = document.getElementById('inputText').value;
-            const response = await fetch('/api/httpTrigger1', {
-                method: 'POST',
-                body: JSON.stringify({ prompt: inputText }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            const result = await response.json();
-            document.getElementById('outputText').value = JSON.stringify(result, null, 2);
-        });
-    </script> -->
+
 </body>
+
 </html>
