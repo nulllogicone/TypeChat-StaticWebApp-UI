@@ -10,10 +10,12 @@
     <div class="container">
         <textarea id="inputText" placeholder="Enter your text here..."></textarea>
         <button  id="invokeApi" class="button-column">Invoke API</button>
+        <span id="spinner" style="display: none;">Loading...</span>
         <textarea id="outputText" placeholder="API response will be shown here..." readonly></textarea>
     </div>
 
-    <script>
+    <script src="app.js"></script>
+    <!-- <script>
         document.getElementById('invokeApi').addEventListener('click', async () => {
             const inputText = document.getElementById('inputText').value;
             const response = await fetch('/api/httpTrigger1', {
@@ -26,6 +28,6 @@
             const result = await response.json();
             document.getElementById('outputText').value = JSON.stringify(result, null, 2);
         });
-    </script>
+    </script> -->
 </body>
 </html>
