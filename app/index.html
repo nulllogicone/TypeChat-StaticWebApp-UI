@@ -19,6 +19,19 @@
         <button id="invokeApi" class="button-column">Invoke API</button>
         <span id="spinner" style="display: none;">Loading...</span>
         <textarea id="outputText" placeholder="API response will be shown here..." readonly></textarea>
+
+        <h2>History</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Prompt</th>
+                    <th>Response (quantity x name)</th>
+                </tr>
+            </thead>
+            <tbody id="dataTable">
+                <!-- Data will be inserted here -->
+            </tbody>
+        </table>
     </div>
 
     <script src="app.js"></script>

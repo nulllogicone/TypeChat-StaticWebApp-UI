@@ -9,8 +9,8 @@ const schema = fs.readFileSync(path.join(__dirname, "coffeeShopSchema.ts"), "utf
 const translator = createJsonTranslator<Cart>(model, schema, "Cart");
 
 const tableOutput = output.table({
-    tableName: 'Person',
-    connection: 'MyStorageConnectionAppSetting',
+    tableName: 'History',
+    connection: 'MyStorageConnectionAppSetting'
 });
 
 interface HistoryEntity {
@@ -47,8 +47,8 @@ export async function httpTrigger1(request: HttpRequest, context: InvocationCont
     history.push({
         PartitionKey: 'CoffeeShop',
         RowKey: new Date().toISOString(),
-        Prompt: JSON.stringify(prompt),
-        Response: JSON.stringify(cart, undefined, 2)
+        Prompt: prompt,
+        Response: JSON.stringify(cart)
     });
     context.extraOutputs.set(tableOutput, history);
     console.log("pushed to TableStorage");

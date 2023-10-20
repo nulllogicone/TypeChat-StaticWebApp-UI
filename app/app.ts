@@ -29,3 +29,39 @@ btnSubmit.addEventListener('click', () => {
         spinner.style.display = 'none';
     });
 });
+
+
+// Assuming you have an endpoint named "apiEndpoint" to fetch the data
+const apiEndpoint = "/api/getHistory";
+
+// Fetch data from the API and populate the table
+async function fetchDataAndPopulateTable() {
+    try {
+        const response = await fetch(apiEndpoint);
+        const data = await response.json();
+
+        const tableBody = document.getElementById("dataTable") as HTMLTableSectionElement;
+
+        data.forEach(entry => {
+            const row = tableBody.insertRow();
+
+            const promptCell = row.insertCell(0);
+            promptCell.textContent = entry.Prompt;
+
+            const responseObj = JSON.parse(entry.Response);
+            const responseCell = row.insertCell(1);
+            // Here, we're simplifying the display to show only product names and quantities. You can customize this.
+            responseObj.items.forEach(item => {
+                responseCell.textContent += `${item.quantity} x ${item.product.name}`;
+            });
+        });
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+
+// Call the function to populate the table
+fetchDataAndPopulateTable();
+
+
+
