@@ -5,10 +5,11 @@ body {
     align-items: center;
     height: 100vh;
     background-color: #f4f4f4;
+    color:red;
 }
 
 .container {
-    display: flex;
+    display: grid;
     width: 90%;
     max-width: 1000px;
     background-color: #fff;
@@ -30,6 +31,7 @@ body {
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border-radius: 25px;
 }
 
 #invokeApi:hover {
@@ -37,14 +39,15 @@ body {
 }
 
 .button-column {
-    flex: 0 0 100px; /* This will make the button column fixed width of 100px */
+    /* flex: 0 0 100px; This will make the button column fixed width of 100px */
+
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 textarea {
-    width: 100%;
+
     height: 200px;
     padding: 10px;
     border-radius: 5px;
