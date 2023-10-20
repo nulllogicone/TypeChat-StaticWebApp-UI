@@ -4,6 +4,7 @@ import * as path from "path";
 import { createLanguageModel, createJsonTranslator, processRequests } from "typechat";
 import { Cart } from "./coffeeShopSchema";
 
+const maxDate = new Date("9999-12-31");
 const model = createLanguageModel(process.env);
 const schema = fs.readFileSync(path.join(__dirname, "coffeeShopSchema.ts"), "utf8");
 const translator = createJsonTranslator<Cart>(model, schema, "Cart");
@@ -23,18 +24,11 @@ interface HistoryEntity {
 export async function httpTrigger1(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log(`Http function processed request for url "${request.url}"`);
 
-
-
     const history: HistoryEntity[] = [];
 
     let prompt: string;
-
-    if (request.method === "POST") {
-        const requestBody = JSON.parse(await request.text());
-        prompt = requestBody.prompt || 'say something funny';
-    } else {
-        prompt = request.query.get('prompt') || 'say something funny';
-    }
+    const requestBody = JSON.parse(await request.text());
+    prompt = requestBody.prompt || 'say something funny';
 
     const response = await translator.translate(prompt);
     if (!response.success) {
@@ -44,14 +38,14 @@ export async function httpTrigger1(request: HttpRequest, context: InvocationCont
     const cart = response.data;
 
     // Save the request message to Azure Table Storage.
+    var rowKeyValue = (maxDate.getTime() - (new Date()).getTime()).toString();
     history.push({
         PartitionKey: 'CoffeeShop',
-        RowKey: new Date().toISOString(),
+        RowKey: rowKeyValue,
         Prompt: prompt,
         Response: JSON.stringify(cart)
     });
     context.extraOutputs.set(tableOutput, history);
-    console.log("pushed to TableStorage");
 
     return {
         body: JSON.stringify(cart, undefined, 2),
@@ -62,7 +56,7 @@ export async function httpTrigger1(request: HttpRequest, context: InvocationCont
 };
 
 app.http('httpTrigger1', {
-    methods: ['GET', 'POST'],
+    methods: ['POST'],
     authLevel: 'anonymous',
     extraOutputs: [tableOutput],
     handler: httpTrigger1

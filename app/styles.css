@@ -44,6 +44,9 @@ h1  {
 
 #spinner {
     color: darkgreen;
+    align-self: center;
+    font-weight: bold;
+    border: dotted 2px darkgreen;
 }
 
 .button-column {
@@ -62,3 +65,14 @@ textarea {
     border: 1px solid #ccc;
     font-family: Arial, sans-serif;
 }
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:0.8em;
+}
+
+table td {
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+  }

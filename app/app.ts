@@ -3,13 +3,12 @@ const textbox: HTMLInputElement = document.getElementById('inputText') as HTMLIn
 const btnSubmit: HTMLButtonElement = document.getElementById('invokeApi') as HTMLButtonElement;
 const responseBox: HTMLInputElement = document.getElementById('outputText') as HTMLInputElement;
 const spinner: HTMLElement = document.getElementById('spinner') as HTMLElement;
+const tableBody = document.getElementById("dataTable") as HTMLTableSectionElement;
 
 btnSubmit.addEventListener('click', () => {
-
     const textValue = textbox.value;
     spinner.style.display = 'inline';
 
-    // Make an API call (replace the URL and method according to your needs)
     fetch('/api/httpTrigger1', {
         method: 'POST',
         headers: {
@@ -17,43 +16,40 @@ btnSubmit.addEventListener('click', () => {
         },
         body: JSON.stringify({ prompt: textValue })
     })
-    .then(response => response.json())
-    .then(data => {
-        responseBox.value = JSON.stringify(data, null, 2);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    })
-    .finally(() => {
-        // Hide the spinner
-        spinner.style.display = 'none';
-    });
+        .then(response => response.json())
+        .then(data => {
+            responseBox.value = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
+        .finally(() => {
+            spinner.style.display = 'none';
+            const row = tableBody.insertRow(0);
+            row.insertCell(0).textContent = textValue;
+            row.insertCell(1).textContent = JSON.stringify(responseBox.value);
+        });
 });
 
 
-// Assuming you have an endpoint named "apiEndpoint" to fetch the data
-const apiEndpoint = "/api/getHistory";
 
-// Fetch data from the API and populate the table
 async function fetchDataAndPopulateTable() {
     try {
-        const response = await fetch(apiEndpoint);
+        const response = await fetch("/api/getHistory");
         const data = await response.json();
-
-        const tableBody = document.getElementById("dataTable") as HTMLTableSectionElement;
 
         data.forEach(entry => {
             const row = tableBody.insertRow();
-
             const promptCell = row.insertCell(0);
             promptCell.textContent = entry.Prompt;
 
-            const responseObj = JSON.parse(entry.Response);
-            const responseCell = row.insertCell(1);
-            // Here, we're simplifying the display to show only product names and quantities. You can customize this.
-            responseObj.items.forEach(item => {
-                responseCell.textContent += `${item.quantity} x ${item.product.name}`;
-            });
+            // const responseObj = JSON.parse(entry.Response);
+            // const responseCell = row.insertCell(1);
+            // // Here, we're simplifying the display to show only product names and quantities. You can customize this.
+            // responseObj.items.forEach(item => {
+            //     responseCell.textContent += `${item.quantity} x ${item.product.name}, `;
+            // });
+            row.insertCell(1).textContent = entry.Response;
         });
     } catch (error) {
         console.error("Error fetching data:", error);
