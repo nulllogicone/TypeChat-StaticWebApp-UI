@@ -1,27 +1,31 @@
-import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
-// import fs from "fs";
-// import path from "path";
-// import dotenv from "dotenv";
+import { app, HttpRequest, HttpResponseInit, InvocationContext, output } from "@azure/functions";
 import * as fs from "fs";
 import * as path from "path";
 import { createLanguageModel, createJsonTranslator, processRequests } from "typechat";
 import { Cart } from "./coffeeShopSchema";
 
-
-// // TODO: use local .env file.
-// dotenv.config({ path: path.join(__dirname, "../../../.env") });
-
 const model = createLanguageModel(process.env);
 const schema = fs.readFileSync(path.join(__dirname, "coffeeShopSchema.ts"), "utf8");
 const translator = createJsonTranslator<Cart>(model, schema, "Cart");
 
-function processOrder(cart: Cart) {
-    // Process the items in the cart
-    void cart;
+const tableOutput = output.table({
+    tableName: 'Person',
+    connection: 'MyStorageConnectionAppSetting',
+});
+
+interface HistoryEntity {
+    PartitionKey: string;
+    RowKey: string;
+    Prompt: string;
+    Response: string;
 }
 
 export async function httpTrigger1(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log(`Http function processed request for url "${request.url}"`);
+
+
+
+    const history: HistoryEntity[] = [];
 
     let prompt: string;
 
@@ -38,7 +42,16 @@ export async function httpTrigger1(request: HttpRequest, context: InvocationCont
         return;
     }
     const cart = response.data;
-    console.log(JSON.stringify(cart, undefined, 2));
+
+    // Save the request message to Azure Table Storage.
+    history.push({
+        PartitionKey: 'CoffeeShop',
+        RowKey: new Date().toISOString(),
+        Prompt: JSON.stringify(prompt),
+        Response: JSON.stringify(cart, undefined, 2)
+    });
+    context.extraOutputs.set(tableOutput, history);
+    console.log("pushed to TableStorage");
 
     return {
         body: JSON.stringify(cart, undefined, 2),
@@ -51,5 +64,6 @@ export async function httpTrigger1(request: HttpRequest, context: InvocationCont
 app.http('httpTrigger1', {
     methods: ['GET', 'POST'],
     authLevel: 'anonymous',
+    extraOutputs: [tableOutput],
     handler: httpTrigger1
 });
