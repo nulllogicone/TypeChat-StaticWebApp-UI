@@ -21,7 +21,7 @@ interface HistoryEntity {
     Response: string;
 }
 
-export async function httpTrigger1(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
+export async function coffeeShopChat(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log(`Http function processed request for url "${request.url}"`);
 
     const history: HistoryEntity[] = [];
@@ -55,9 +55,9 @@ export async function httpTrigger1(request: HttpRequest, context: InvocationCont
     };
 };
 
-app.http('httpTrigger1', {
+app.http('coffeeShopChat', {
     methods: ['POST'],
     authLevel: 'anonymous',
     extraOutputs: [tableOutput],
-    handler: httpTrigger1
+    handler: coffeeShopChat
 });

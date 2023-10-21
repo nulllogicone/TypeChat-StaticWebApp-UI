@@ -3,7 +3,8 @@ import { app, HttpRequest, HttpResponseInit, InvocationContext, input } from "@a
 const tableInput = input.table({
     tableName: 'History',
     partitionKey: 'CoffeeShop',
-    connection: 'MyStorageConnectionAppSetting'
+    connection: 'MyStorageConnectionAppSetting',
+    take: 5
 });
 
 interface HistoryEntity {
@@ -19,7 +20,7 @@ export async function getHistory(request: HttpRequest, context: InvocationContex
     const history = <HistoryEntity>context.extraInputs.get(tableInput);
 
     return { 
-        body: JSON.stringify(history, undefined, 2),
+        body: JSON.stringify(history),
         headers: {
             'Content-Type': 'application/json'
         } 

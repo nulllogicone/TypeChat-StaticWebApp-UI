@@ -7,9 +7,10 @@ const tableBody = document.getElementById("dataTable") as HTMLTableSectionElemen
 
 btnSubmit.addEventListener('click', () => {
     const textValue = textbox.value;
+    btnSubmit.disabled = true;
     spinner.style.display = 'inline';
 
-    fetch('/api/httpTrigger1', {
+    fetch('/api/coffeeShopChat', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -19,15 +20,16 @@ btnSubmit.addEventListener('click', () => {
         .then(response => response.json())
         .then(data => {
             responseBox.value = JSON.stringify(data, null, 2);
+            const row = tableBody.insertRow(0);
+            row.insertCell(0).textContent = textValue;
+            row.insertCell(1).textContent = JSON.stringify(data);
         })
         .catch(error => {
             console.error('Error:', error);
         })
         .finally(() => {
+            btnSubmit.disabled = false;
             spinner.style.display = 'none';
-            const row = tableBody.insertRow(0);
-            row.insertCell(0).textContent = textValue;
-            row.insertCell(1).textContent = JSON.stringify(responseBox.value);
         });
 });
 
