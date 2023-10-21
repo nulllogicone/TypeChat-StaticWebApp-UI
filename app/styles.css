@@ -3,7 +3,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #f4f4f4;
 }
 
@@ -80,4 +80,17 @@ table{
 table td {
     padding: 5px;
     border-bottom: 1px solid #ccc;
+  }
+
+  .tooltip {
+    position: absolute;
+    padding: 8px;
+    background-color: white;
+    border: 1px solid #ccc;
+    z-index: 10;
+    max-width: 300px;
+    display: none;
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+    font-family: monospace;
+    white-space: pre-wrap;
   }
