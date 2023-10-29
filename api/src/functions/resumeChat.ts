@@ -21,11 +21,11 @@ interface HistoryEntity {
     Response: string;
 }
 
-export async function coffeeShopChat(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
+export async function resumeChat(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log(`Http function name: "${context.functionName}" processed request for url "${request.url}"`);
 
     const requestBody = JSON.parse(await request.text());
-    let prompt = requestBody.prompt;
+    let prompt = requestBody.prompt || 'say something funny';
 
     // Get response from TypeChat
     const response = await translator.translate(prompt);
@@ -54,9 +54,9 @@ export async function coffeeShopChat(request: HttpRequest, context: InvocationCo
     };
 };
 
-app.http('coffeeShopChat', {
+app.http('resumeChat', {
     methods: ['POST'],
     authLevel: 'anonymous',
     extraOutputs: [tableOutput],
-    handler: coffeeShopChat
+    handler: resumeChat
 });
