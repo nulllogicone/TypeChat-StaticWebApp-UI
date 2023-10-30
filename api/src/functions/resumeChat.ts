@@ -2,12 +2,12 @@ import { app, HttpRequest, HttpResponseInit, InvocationContext, output } from "@
 import * as fs from "fs";
 import * as path from "path";
 import { createLanguageModel, createJsonTranslator, processRequests } from "typechat";
-import { Cart } from "./coffeeShopSchema";
+import { Resume } from "./resumeSchema";
 
 const maxDate = new Date("9999-12-31");
 const model = createLanguageModel(process.env);
-const schema = fs.readFileSync(path.join(__dirname, "coffeeShopSchema.ts"), "utf8");
-const translator = createJsonTranslator<Cart>(model, schema, "Cart");
+const schema = fs.readFileSync(path.join(__dirname, "resumeSchema.ts"), "utf8");
+const translator = createJsonTranslator<Resume>(model, schema, "Resume");
 
 const tableOutput = output.table({
     tableName: 'History',
