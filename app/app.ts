@@ -6,10 +6,6 @@ const spinner: HTMLElement = document.getElementById('spinner') as HTMLElement;
 const tableBody = document.getElementById("dataTable") as HTMLTableSectionElement;
 const toolTip = document.getElementById("tooltip");
 
-// let toolTip = document.createElement('div');
-// toolTip.classList.add('tooltip');
-// document.body.appendChild(toolTip);
-
 btnSubmit.addEventListener('click', () => {
     const textValue = textbox.value;
     btnSubmit.disabled = true;

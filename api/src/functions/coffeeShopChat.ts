@@ -33,6 +33,7 @@ export async function coffeeShopChat(request: HttpRequest, context: InvocationCo
     const response = await translator.translate(prompt);
     if (!response.success) {
         console.log(response);
+        context.error(response);
         return;
     }
     const cart = response.data;
