@@ -31,6 +31,7 @@ export async function resumeChat(request: HttpRequest, context: InvocationContex
     const response = await translator.translate(prompt);
     if (!response.success) {
         console.log(response);
+        context.error(response);
         return;
     }
     const cart = response.data;
