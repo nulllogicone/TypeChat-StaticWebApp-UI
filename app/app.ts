@@ -6,12 +6,24 @@ const spinner: HTMLElement = document.getElementById('spinner') as HTMLElement;
 const tableBody = document.getElementById("dataTable") as HTMLTableSectionElement;
 const toolTip = document.getElementById("tooltip");
 
-btnSubmit.addEventListener('click', () => {
+declare var nameOfTheExample: string;
+
+btnSubmit.addEventListener('click', function(event) {
     const textValue = textbox.value;
+
+    // // // Fetch the parameter from the data-param attribute
+    // const targetElement = event.currentTarget as HTMLElement;
+    // const paramValue = targetElement.getAttribute('data-param');
+    // console.log(`app code get param: ${paramValue}`);
+    
+    console.log(`Backend gloabal variable: ${nameOfTheExample}`);
+
+    // loading spinner
     btnSubmit.disabled = true;
     spinner.style.display = 'inline';
 
-    fetch('/api/coffeeShopChat', {
+    // fetch with parameter
+    fetch(`/api/${nameOfTheExample}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -21,6 +33,8 @@ btnSubmit.addEventListener('click', () => {
         .then(response => response.json())
         .then(data => {
             responseBox.value = JSON.stringify(data, null, 2);
+
+            // Insert row for History table with hover
             const row = tableBody.insertRow(0);
             row.insertCell(0).textContent = textValue;
             let cell = row.insertCell(1);
@@ -41,7 +55,7 @@ btnSubmit.addEventListener('click', () => {
 
 async function fetchDataAndPopulateTable() {
     try {
-        const response = await fetch("/api/getHistory");
+        const response = await fetch(`/api/getHistory/${nameOfTheExample}`);
         const data = await response.json();
 
         data.forEach(entry => {
@@ -49,12 +63,6 @@ async function fetchDataAndPopulateTable() {
             const promptCell = row.insertCell(0);
             promptCell.textContent = entry.Prompt;
 
-            // const responseObj = JSON.parse(entry.Response);
-            // const responseCell = row.insertCell(1);
-            // // Here, we're simplifying the display to show only product names and quantities. You can customize this.
-            // responseObj.items.forEach(item => {
-            //     responseCell.textContent += `${item.quantity} x ${item.product.name}, `;
-            // });
             let cell = row.insertCell(1);
             cell.textContent = entry.Response;
             cell.className = "json-cell";

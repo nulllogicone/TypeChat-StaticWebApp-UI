@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Azure Static Web App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>TypeChat UI</h1>
+        <div>A simple Azure Static Web App UI for *my own* resume example of <a
+                href="https://microsoft.github.io/TypeChat/">TypeChat</a>
+        </div>
+        <textarea id="inputText" placeholder="Enter your text here..."></textarea>
+        <button id="invokeApi" class="button-column">Invoke API</button>
+        <span id="spinner" style="display: none;">Loading...</span>
+        <textarea id="outputText" placeholder="API response will be shown here..." readonly></textarea>
+
+        <h2>History</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Prompt</th>
+                    <th>Response (double click to copy)</th>
+                </tr>
+            </thead>
+            <tbody id="dataTable">
+                <!-- Data will be inserted here -->
+            </tbody>
+        </table>
+        <div id="tooltip" class="tooltip"></div>
+    </div>
+
+    <script>
+        // define the backend to call
+        var nameOfTheExample = "resumeChat";
+    </script>
+    <script src="app.js"></script>
+
+</body>
+
+</html>
