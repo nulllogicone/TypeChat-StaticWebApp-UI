@@ -10,7 +10,12 @@
     },
     {
       "route":"/coffeeShop",
-      "rewrite": "/coffeeShop.html"
+      "rewrite": "/coffeeShop.html",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/api/*",
+      "allowedRoles": ["authenticated"]
     }
   ]
 }
