@@ -2,7 +2,7 @@ import { app, HttpRequest, HttpResponseInit, InvocationContext, input } from "@a
 
 const tableInput = input.table({
     tableName: 'History',
-    partitionKey: 'CoffeeShop',
+    partitionKey: '{paramValue}',
     connection: 'MyStorageConnectionAppSetting',
     take: 5
 });
@@ -15,8 +15,10 @@ interface HistoryEntity {
 }
 
 export async function getHistory(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
-    context.log(`Http function processed request for url "${request.url}"`);
+    context.log(`getHistory processed request for url "${request.url}"`);
 
+    // Get the 'param' query parameter from the request
+    const paramValue = request.query.get('param');
     const history = <HistoryEntity>context.extraInputs.get(tableInput);
 
     return { 
@@ -28,6 +30,7 @@ export async function getHistory(request: HttpRequest, context: InvocationContex
 };
 
 app.http('getHistory', {
+    route: 'getHistory/{paramValue}',
     methods: ['GET', 'POST'],
     authLevel: 'anonymous',
     extraInputs: [tableInput],

@@ -2,12 +2,12 @@ import { app, HttpRequest, HttpResponseInit, InvocationContext, output } from "@
 import * as fs from "fs";
 import * as path from "path";
 import { createLanguageModel, createJsonTranslator, processRequests } from "typechat";
-import { Cart } from "./coffeeShopSchema";
+import { Resume } from "./resumeSchema";
 
 const maxDate = new Date("9999-12-31");
 const model = createLanguageModel(process.env);
-const schema = fs.readFileSync(path.join(__dirname, "coffeeShopSchema.ts"), "utf8");
-const translator = createJsonTranslator<Cart>(model, schema, "Cart");
+const schema = fs.readFileSync(path.join(__dirname, "resumeSchema.ts"), "utf8");
+const translator = createJsonTranslator<Resume>(model, schema, "Resume");
 
 const tableOutput = output.table({
     tableName: 'History',
@@ -21,11 +21,11 @@ interface HistoryEntity {
     Response: string;
 }
 
-export async function coffeeShopChat(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
+export async function resumeChat(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log(`Http function name: "${context.functionName}" processed request for url "${request.url}"`);
 
     const requestBody = JSON.parse(await request.text());
-    let prompt = requestBody.prompt;
+    let prompt = requestBody.prompt || 'say something funny';
 
     // Get response from TypeChat
     const response = await translator.translate(prompt);
@@ -54,9 +54,9 @@ export async function coffeeShopChat(request: HttpRequest, context: InvocationCo
     };
 };
 
-app.http('coffeeShopChat', {
+app.http('resumeChat', {
     methods: ['POST'],
     authLevel: 'anonymous',
     extraOutputs: [tableOutput],
-    handler: coffeeShopChat
+    handler: resumeChat
 });
