@@ -73,8 +73,6 @@ async function fetchDataAndPopulateTable() {
     }
 }
 
-// Call the function to populate the table
-fetchDataAndPopulateTable();
 
 
 
@@ -145,3 +143,38 @@ function addJsonCellHoverListeners(cell: HTMLTableCellElement) {
 }
 
 
+async function loadHeader(): Promise<void> {
+    const headerPlaceholder: HTMLElement | null = document.getElementById('menu');
+    if (headerPlaceholder) {
+      try {
+        const response: Response = await fetch('menu.html');
+        headerPlaceholder.innerHTML = await response.text();
+        highlightCurrentItem();
+      } catch (error) {
+        console.error('Failed to load the menu:', error);
+      }
+    }
+  }
+
+  // TypeScript function to highlight the current item in the navigation
+function highlightCurrentItem(): void {
+    const currentPage: string = window.location.pathname.split('/').pop() || 'index.html';
+    const navItems: NodeListOf<HTMLElement> = document.querySelectorAll('.nav-item');
+  
+    navItems.forEach((item: Element) => {
+        // Extract the name of the page from the item's href attribute
+        const itemPage: string = item.getAttribute('href')?.split('/').pop() || '';
+  
+        // Check if the current page is the homepage or matches a nav item
+        if ((currentPage === 'index.html' && itemPage === 'index.html') || itemPage === currentPage) {
+          item.classList.add('highlight');
+        } else {
+          item.classList.remove('highlight'); // Ensure only the current item is highlighted
+        }
+      });
+  }
+
+
+  // Call the function to populate the table
+fetchDataAndPopulateTable();
+loadHeader();

@@ -5,7 +5,12 @@
   "routes": [
     {
       "route": "/resume",
-      "rewrite": "/resume.html"
+      "rewrite": "/resume.html",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route":"/coffeeShop",
+      "rewrite": "/coffeeShop.html"
     }
   ]
 }

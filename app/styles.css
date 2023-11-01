@@ -10,6 +10,8 @@ body {
 h1  {
     color: darkblue;
 }
+
+
 .container {
     display: grid;
     width: 90%;
@@ -94,4 +96,31 @@ table td {
     box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
     font-family: monospace;
     white-space: pre-wrap;
+  }
+
+
+  header {
+    color: #333;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  nav li {
+    display: inline;
+    margin-right: 10px;
+  }
+  
+  nav a {
+    color: darkblue;
+    text-decoration: none;
+  }
+  
+  nav a.highlight, nav a:hover {
+    font-weight: bold;
   }
