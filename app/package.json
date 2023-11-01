@@ -3,6 +3,7 @@
         "build": "tsc"
     },
     "dependencies": {
+        "@microsoft/applicationinsights-web": "^3.0.4",
         "typescript": "^5.2.2"
     }
 }
