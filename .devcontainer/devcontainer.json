@@ -12,7 +12,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "npm install",
+	"postCreateCommand": "npm install -g @azure/static-web-apps-cli && npm install -g azure-functions-core-tools",
 
 	// Configure tool-specific properties.
 	"customizations": {
@@ -20,7 +20,8 @@
 		"vscode": {
 		  // Add the IDs of extensions you want installed when the container is created.
 		  "extensions": [
-			"azurite.azurite"
+			"azurite.azurite",
+			"ms-azuretools.vscode-azurefunctions"
 		  ]
 		}
 	  }
