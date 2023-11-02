@@ -112,7 +112,7 @@ table td {
   }
   
   nav li {
-    display: inline;
+    display: inline-block;
     margin-right: 10px;
   }
   
@@ -124,3 +124,8 @@ table td {
   nav a.highlight, nav a:hover {
     font-weight: bold;
   }
+
+  #userNameDisplay {
+    display: inline; /* Change display property */
+    margin-right: 10px; /* Consistent spacing with other items */
+}

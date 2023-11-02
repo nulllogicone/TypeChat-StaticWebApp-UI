@@ -174,7 +174,34 @@ function highlightCurrentItem(): void {
       });
   }
 
+  async function checkAuthentication() {
+    try {
+      const response = await fetch('/.auth/me');
+      const payload = await response.json();
+      const user = payload.clientPrincipal;
+  
+      // Grab the HTML elements
+      const loginButton = document.getElementById('loginButton');
+      const logoutButton = document.getElementById('logoutButton');
+      const userNameDisplay = document.getElementById('userNameDisplay');
+  
+      if (user) {
+        // User is authenticated
+        loginButton.style.display = 'none'; // Hide login button
+        logoutButton.style.display = 'block'; // Show logout button
+        userNameDisplay.textContent = `Hi ${user.userDetails}`; // Display user's name
+        userNameDisplay.style.display = 'block'; // Show user's name
+      } else {
+        // User is not authenticated
+        loginButton.style.display = 'block'; // Show login button
+        logoutButton.style.display = 'none'; // Hide logout button
+        userNameDisplay.style.display = 'none'; // Hide user's name
+      }
+    } catch (error) {
+      console.error('Error checking authentication status', error);
+    }
+  }
 
   // Call the function to populate the table
 fetchDataAndPopulateTable();
-loadHeader();
+loadHeader().then(checkAuthentication);
