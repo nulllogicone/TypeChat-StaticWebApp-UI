@@ -73,8 +73,6 @@ async function fetchDataAndPopulateTable() {
     }
 }
 
-// Call the function to populate the table
-fetchDataAndPopulateTable();
 
 
 
@@ -145,3 +143,65 @@ function addJsonCellHoverListeners(cell: HTMLTableCellElement) {
 }
 
 
+async function loadHeader(): Promise<void> {
+    const headerPlaceholder: HTMLElement | null = document.getElementById('menu');
+    if (headerPlaceholder) {
+      try {
+        const response: Response = await fetch('menu.html');
+        headerPlaceholder.innerHTML = await response.text();
+        highlightCurrentItem();
+      } catch (error) {
+        console.error('Failed to load the menu:', error);
+      }
+    }
+  }
+
+  // TypeScript function to highlight the current item in the navigation
+function highlightCurrentItem(): void {
+    const currentPage: string = window.location.pathname.split('/').pop() || 'index.html';
+    const navItems: NodeListOf<HTMLElement> = document.querySelectorAll('.nav-item');
+  
+    navItems.forEach((item: Element) => {
+        // Extract the name of the page from the item's href attribute
+        const itemPage: string = item.getAttribute('href')?.split('/').pop() || '';
+  
+        // Check if the current page is the homepage or matches a nav item
+        if ((currentPage === 'index.html' && itemPage === 'index.html') || itemPage === currentPage) {
+          item.classList.add('highlight');
+        } else {
+          item.classList.remove('highlight'); // Ensure only the current item is highlighted
+        }
+      });
+  }
+
+  async function checkAuthentication() {
+    try {
+      const response = await fetch('/.auth/me');
+      const payload = await response.json();
+      const user = payload.clientPrincipal;
+  
+      // Grab the HTML elements
+      const loginButton = document.getElementById('loginButton');
+      const logoutButton = document.getElementById('logoutButton');
+      const userNameDisplay = document.getElementById('userNameDisplay');
+  
+      if (user) {
+        // User is authenticated
+        loginButton.style.display = 'none'; // Hide login button
+        logoutButton.style.display = 'block'; // Show logout button
+        userNameDisplay.textContent = `Hi ${user.userDetails}`; // Display user's name
+        userNameDisplay.style.display = 'block'; // Show user's name
+      } else {
+        // User is not authenticated
+        loginButton.style.display = 'block'; // Show login button
+        logoutButton.style.display = 'none'; // Hide logout button
+        userNameDisplay.style.display = 'none'; // Hide user's name
+      }
+    } catch (error) {
+      console.error('Error checking authentication status', error);
+    }
+  }
+
+  // Call the function to populate the table
+fetchDataAndPopulateTable();
+loadHeader().then(checkAuthentication);

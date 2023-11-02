@@ -10,6 +10,8 @@ body {
 h1  {
     color: darkblue;
 }
+
+
 .container {
     display: grid;
     width: 90%;
@@ -95,3 +97,35 @@ table td {
     font-family: monospace;
     white-space: pre-wrap;
   }
+
+
+  header {
+    color: #333;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  nav li {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  nav a {
+    color: darkblue;
+    text-decoration: none;
+  }
+  
+  nav a.highlight, nav a:hover {
+    font-weight: bold;
+  }
+
+  #userNameDisplay {
+    display: inline; /* Change display property */
+    margin-right: 10px; /* Consistent spacing with other items */
+}

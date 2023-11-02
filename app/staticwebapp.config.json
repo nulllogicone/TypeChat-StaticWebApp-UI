@@ -2,10 +2,44 @@
   "platform": {
     "apiRuntime": "node:18"
   },
+  "responseOverrides": {
+    "401": {
+      "redirect": "/.auth/login/aad",
+      "statusCode": 302
+    }
+  },
   "routes": [
     {
       "route": "/resume",
-      "rewrite": "/resume.html"
+      "rewrite": "/resume.html",
+      "allowedRoles": [
+        "authenticated"
+      ]
+    },
+    {
+      "route": "/coffeeShop",
+      "rewrite": "/coffeeShop.html",
+      "allowedRoles": [
+        "authenticated"
+      ]
+    },
+    {
+      "route": "/api/indexChat",
+      "allowedRoles": [
+        "anonymous"
+      ]
+    },
+    {
+      "route": "/api/getHistory/indexChat",
+      "allowedRoles": [
+        "anonymous"
+      ]
+    },
+    {
+      "route": "/api/*",
+      "allowedRoles": [
+        "authenticated"
+      ]
     }
   ]
 }
