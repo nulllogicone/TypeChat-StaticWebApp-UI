@@ -1,4 +1,7 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext, output } from "@azure/functions";
+import { configDotenv } from "dotenv";
+import { machine } from "os";
+import { env } from "process";
 
 const maxDate = new Date("9999-12-31");
 
@@ -21,8 +24,9 @@ export async function indexChat(request: HttpRequest, context: InvocationContext
     let prompt = requestBody.prompt;
 
     var fake = {
-        "message": `on the index page we don't really call ChatGpt, just echo: ${prompt}`,
-        "reason": "It would cost too much money"
+        "message": `on the index page we don't really call ChatGpt, just echo your prompt: ${prompt}`,
+        "reason": "It would cost too much if somebody ",
+        "machine": o
     }
 
     // Save the request message to Azure Table Storage.

@@ -8,6 +8,17 @@
       "statusCode": 302
     }
   },
+  "auth": {
+    "identityProviders": {
+      "azureActiveDirectory": {
+        "registration": {
+          "openIdIssuer": "https://login.microsoftonline.com/c2bf2c96-a1bb-4c37-9602-b93cbc30b094/v2.0",
+          "clientIdSettingName": "AZURE_CLIENT_ID",
+          "clientSecretSettingName": "AZURE_CLIENT_SECRET"
+        }
+      }
+    }
+  },
   "routes": [
     {
       "route": "/resume",
