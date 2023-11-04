@@ -6,17 +6,16 @@ const spinner: HTMLElement = document.getElementById('spinner') as HTMLElement;
 const tableBody = document.getElementById("dataTable") as HTMLTableSectionElement;
 const toolTip = document.getElementById("tooltip");
 
+// this variable is set in the xxxxx.html file
+// and defines the name of the backend function to call
+// 
 declare var nameOfTheExample: string;
 
-btnSubmit.addEventListener('click', function(event) {
+// Add event listener to the invokeApi submit button
+btnSubmit.addEventListener('click', function (event) {
     const textValue = textbox.value;
 
-    // // // Fetch the parameter from the data-param attribute
-    // const targetElement = event.currentTarget as HTMLElement;
-    // const paramValue = targetElement.getAttribute('data-param');
-    // console.log(`app code get param: ${paramValue}`);
-    
-    console.log(`Backend gloabal variable: ${nameOfTheExample}`);
+    console.log(`btnSubmit.click += /api/${nameOfTheExample}`);
 
     // loading spinner
     btnSubmit.disabled = true;
@@ -51,8 +50,7 @@ btnSubmit.addEventListener('click', function(event) {
         });
 });
 
-
-
+// fetch the history of the example and populate the table
 async function fetchDataAndPopulateTable() {
     try {
         const response = await fetch(`/api/getHistory/${nameOfTheExample}`);
@@ -72,9 +70,6 @@ async function fetchDataAndPopulateTable() {
         console.error("Error fetching data:", error);
     }
 }
-
-
-
 
 function addJsonCellHoverListeners(cell: HTMLTableCellElement) {
     cell.addEventListener('mouseenter', function (e) {
@@ -142,66 +137,67 @@ function addJsonCellHoverListeners(cell: HTMLTableCellElement) {
     });
 }
 
-
+// load the header from the menu.html file
 async function loadHeader(): Promise<void> {
     const headerPlaceholder: HTMLElement | null = document.getElementById('menu');
     if (headerPlaceholder) {
-      try {
-        const response: Response = await fetch('menu.html');
-        headerPlaceholder.innerHTML = await response.text();
-        highlightCurrentItem();
-      } catch (error) {
-        console.error('Failed to load the menu:', error);
-      }
+        try {
+            const response: Response = await fetch('menu.html');
+            headerPlaceholder.innerHTML = await response.text();
+            highlightCurrentItem();
+        } catch (error) {
+            console.error('Failed to load the menu:', error);
+        }
     }
-  }
+}
 
-  // TypeScript function to highlight the current item in the navigation
+// highlight the current item in the navigation
 function highlightCurrentItem(): void {
     const currentPage: string = window.location.pathname.split('/').pop() || 'index.html';
     const navItems: NodeListOf<HTMLElement> = document.querySelectorAll('.nav-item');
-  
+
     navItems.forEach((item: Element) => {
         // Extract the name of the page from the item's href attribute
         const itemPage: string = item.getAttribute('href')?.split('/').pop() || '';
-  
+
         // Check if the current page is the homepage or matches a nav item
         if ((currentPage === 'index.html' && itemPage === 'index.html') || itemPage === currentPage) {
-          item.classList.add('highlight');
+            item.classList.add('highlight');
         } else {
-          item.classList.remove('highlight'); // Ensure only the current item is highlighted
+            item.classList.remove('highlight'); // Ensure only the current item is highlighted
         }
-      });
-  }
+    });
+}
 
-  async function checkAuthentication() {
+// show or hide login/logaut buttons depending on the authentication status
+async function checkAuthentication() {
     try {
-      const response = await fetch('/.auth/me');
-      const payload = await response.json();
-      const user = payload.clientPrincipal;
-  
-      // Grab the HTML elements
-      const loginButton = document.getElementById('loginButton');
-      const logoutButton = document.getElementById('logoutButton');
-      const userNameDisplay = document.getElementById('userNameDisplay');
-  
-      if (user) {
-        // User is authenticated
-        loginButton.style.display = 'none'; // Hide login button
-        logoutButton.style.display = 'block'; // Show logout button
-        userNameDisplay.textContent = `Hi ${user.userDetails}`; // Display user's name
-        userNameDisplay.style.display = 'block'; // Show user's name
-      } else {
-        // User is not authenticated
-        loginButton.style.display = 'block'; // Show login button
-        logoutButton.style.display = 'none'; // Hide logout button
-        userNameDisplay.style.display = 'none'; // Hide user's name
-      }
-    } catch (error) {
-      console.error('Error checking authentication status', error);
-    }
-  }
+        const response = await fetch('/.auth/me');
+        const payload = await response.json();
+        const user = payload.clientPrincipal;
 
-  // Call the function to populate the table
+        // Grab the HTML elements
+        const loginButton = document.getElementById('loginButton');
+        const logoutButton = document.getElementById('logoutButton');
+        const userNameDisplay = document.getElementById('userNameDisplay');
+
+        if (user) {
+            // User is authenticated
+            loginButton.style.display = 'none'; // Hide login button
+            logoutButton.style.display = 'block'; // Show logout button
+            userNameDisplay.textContent = `Hi ${user.userDetails}`; // Display user's name
+            userNameDisplay.style.display = 'block'; // Show user's name
+        } else {
+            // User is not authenticated
+            loginButton.style.display = 'block'; // Show login button
+            logoutButton.style.display = 'none'; // Hide logout button
+            userNameDisplay.style.display = 'none'; // Hide user's name
+        }
+    } catch (error) {
+        console.error('Error checking authentication status', error);
+    }
+}
+
+// Call the functions to load the history, header and authentication status
 fetchDataAndPopulateTable();
 loadHeader().then(checkAuthentication);

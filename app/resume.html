@@ -26,6 +26,24 @@
         <span id="spinner" style="display: none;">Loading...</span>
         <textarea id="outputText" placeholder="API response will be shown here..." readonly></textarea>
 
+        <h2>Schema</h2>
+        <pre>
+{
+    title:string // headline of the candidate
+    experiences:experience[] // list of experiences
+    skilles:skill[] // list of skills
+    educations:education[] // list of educations
+    languages:language[] // list of languages
+    hobbies:string[] // list of hobbies
+    additions: {
+        poem:string // a poem
+        nogoes:string[] // list of nogoes
+        funfacts:string[] // list of funfacts
+    }
+}
+        </pre>
+        <h3>Additions - poem, nogoes and funfacts</h3>
+
         <h2>History</h2>
         <table>
             <thead>
@@ -42,7 +60,7 @@
     </div>
 
     <script>
-        // define the backend to call
+        // todo: define the backend to call
         var nameOfTheExample = "resumeChat";
     </script>
     <script src="app.js"></script>
