@@ -2,9 +2,9 @@ import { app, HttpRequest, HttpResponseInit, InvocationContext, output } from "@
 import { configDotenv } from "dotenv";
 import { machine } from "os";
 import { env } from "process";
-import { HistoryEntity } from "./HistoryEntity";
+import { HistoryEntity } from "./utils/HistoryEntity";
 
-
+// todo: move this to a shared file
 const maxDate = new Date("9999-12-31");
 
 const tableOutput = output.table({
