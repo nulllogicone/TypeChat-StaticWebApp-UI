@@ -1,4 +1,5 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext, input } from "@azure/functions";
+import { HistoryEntity } from "./HistoryEntity";
 
 const tableInput = input.table({
     tableName: 'History',
@@ -6,13 +7,6 @@ const tableInput = input.table({
     connection: 'MyStorageConnectionAppSetting',
     take: 5
 });
-
-interface HistoryEntity {
-    PartitionKey: string;
-    RowKey: string;
-    Prompt: string;
-    Response: string;
-}
 
 export async function getHistory(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log(`getHistory processed request for url "${request.url}"`);

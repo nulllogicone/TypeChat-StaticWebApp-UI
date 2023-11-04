@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { createLanguageModel, createJsonTranslator, processRequests } from "typechat";
 import { Resume } from "./resumeSchema";
+import { HistoryEntity } from "./HistoryEntity";
 
 const maxDate = new Date("9999-12-31");
 const model = createLanguageModel(process.env);
@@ -14,12 +15,6 @@ const tableOutput = output.table({
     connection: 'MyStorageConnectionAppSetting'
 });
 
-interface HistoryEntity {
-    PartitionKey: string;
-    RowKey: string;
-    Prompt: string;
-    Response: string;
-}
 
 export async function resumeChat(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log(`Http function name: "${context.functionName}" processed request for url "${request.url}"`);
@@ -43,7 +38,8 @@ export async function resumeChat(request: HttpRequest, context: InvocationContex
         PartitionKey: context.functionName,
         RowKey: rowKeyValue,
         Prompt: prompt,
-        Response: JSON.stringify(cart)
+        Response: JSON.stringify(cart),
+        User: request.user
     });
     context.extraOutputs.set(tableOutput, history);
 

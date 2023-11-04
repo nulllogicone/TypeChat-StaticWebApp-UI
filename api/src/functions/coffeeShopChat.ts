@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { createLanguageModel, createJsonTranslator, processRequests } from "typechat";
 import { Cart } from "./coffeeShopSchema";
+import { HistoryEntity } from "./HistoryEntity";
 
 const maxDate = new Date("9999-12-31");
 const model = createLanguageModel(process.env);
@@ -13,13 +14,6 @@ const tableOutput = output.table({
     tableName: 'History',
     connection: 'MyStorageConnectionAppSetting'
 });
-
-interface HistoryEntity {
-    PartitionKey: string;
-    RowKey: string;
-    Prompt: string;
-    Response: string;
-}
 
 export async function coffeeShopChat(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log(`Http function name: "${context.functionName}" processed request for url "${request.url}"`);
@@ -43,7 +37,8 @@ export async function coffeeShopChat(request: HttpRequest, context: InvocationCo
         PartitionKey: context.functionName,
         RowKey: rowKeyValue,
         Prompt: prompt,
-        Response: JSON.stringify(cart)
+        Response: JSON.stringify(cart),
+        User: request.user
     });
     context.extraOutputs.set(tableOutput, history);
 

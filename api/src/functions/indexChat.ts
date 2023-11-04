@@ -2,6 +2,8 @@ import { app, HttpRequest, HttpResponseInit, InvocationContext, output } from "@
 import { configDotenv } from "dotenv";
 import { machine } from "os";
 import { env } from "process";
+import { HistoryEntity } from "./HistoryEntity";
+
 
 const maxDate = new Date("9999-12-31");
 
@@ -10,12 +12,6 @@ const tableOutput = output.table({
     connection: 'MyStorageConnectionAppSetting'
 });
 
-interface HistoryEntity {
-    PartitionKey: string;
-    RowKey: string;
-    Prompt: string;
-    Response: string;
-}
 
 export async function indexChat(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log(`Http function processed request for url "${request.url}"`);
@@ -37,7 +33,8 @@ export async function indexChat(request: HttpRequest, context: InvocationContext
         PartitionKey: context.functionName,
         RowKey: rowKeyValue,
         Prompt: prompt,
-        Response: JSON.stringify(fake)
+        Response: JSON.stringify(fake),
+        User: request.user
     });
     context.extraOutputs.set(tableOutput, history);
 
