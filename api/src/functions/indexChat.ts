@@ -24,9 +24,10 @@ export async function indexChat(request: HttpRequest, context: InvocationContext
     let prompt = requestBody.prompt;
 
     var fake = {
-        "message": `on the index page we don't really call ChatGpt, just echo your prompt: ${prompt}`,
-        "reason": "It would cost too much if somebody ",
-        "machine": o
+        "message": "On the index page we don't really call ChatGpt, just echo your prompt",
+        "prompt": prompt,
+        "reason": "It costs money to call ChatGpt and I don't want to risk brute force abuse",
+        "user": request.user
     }
 
     // Save the request message to Azure Table Storage.
