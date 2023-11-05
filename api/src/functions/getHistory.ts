@@ -1,20 +1,10 @@
-import { app, HttpRequest, HttpResponseInit, InvocationContext, input } from "@azure/functions";
-import { HistoryEntity } from "./utils/HistoryEntity";
-
-const tableInput = input.table({
-    tableName: 'History',
-    partitionKey: '{paramValue}',
-    connection: 'MyStorageConnectionAppSetting',
-    take: 5
-});
+import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
+import { HistoryEntity, tableInput } from "./utils/HistoryEntity";
 
 export async function getHistory(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log(`getHistory processed request for url "${request.url}"`);
 
-    // Get the 'param' query parameter from the request
-    const paramValue = request.query.get('param');
     const history = <HistoryEntity>context.extraInputs.get(tableInput);
-
     return { 
         body: JSON.stringify(history),
         headers: {

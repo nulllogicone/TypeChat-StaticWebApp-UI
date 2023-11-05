@@ -1,16 +1,5 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext, output } from "@azure/functions";
-import { configDotenv } from "dotenv";
-import { machine } from "os";
-import { env } from "process";
-import { HistoryEntity } from "./utils/HistoryEntity";
-
-// todo: move this to a shared file
-const maxDate = new Date("9999-12-31");
-
-const tableOutput = output.table({
-    tableName: 'History',
-    connection: 'MyStorageConnectionAppSetting'
-});
+import {HistoryEntity, tableOutput, getRowKeyValue} from "./utils/HistoryEntity";
 
 
 export async function indexChat(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
@@ -28,10 +17,9 @@ export async function indexChat(request: HttpRequest, context: InvocationContext
 
     // Save the request message to Azure Table Storage.
     const history: HistoryEntity[] = [];
-    var rowKeyValue = (maxDate.getTime() - (new Date()).getTime()).toString();
     history.push({
         PartitionKey: context.functionName,
-        RowKey: rowKeyValue,
+        RowKey: getRowKeyValue(),
         Prompt: prompt,
         Response: JSON.stringify(fake),
         User: request.user

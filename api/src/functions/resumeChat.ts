@@ -3,18 +3,11 @@ import * as fs from "fs";
 import * as path from "path";
 import { createLanguageModel, createJsonTranslator, processRequests } from "typechat";
 import { Resume } from "./resumeSchema";
-import { HistoryEntity } from "./utils/HistoryEntity";
+import { HistoryEntity, tableOutput, getRowKeyValue } from "./utils/HistoryEntity";
 
-const maxDate = new Date("9999-12-31");
 const model = createLanguageModel(process.env);
 const schema = fs.readFileSync(path.join(__dirname, "resumeSchema.ts"), "utf8");
 const translator = createJsonTranslator<Resume>(model, schema, "Resume");
-
-const tableOutput = output.table({
-    tableName: 'History',
-    connection: 'MyStorageConnectionAppSetting'
-});
-
 
 export async function resumeChat(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log(`Http function name: "${context.functionName}" processed request for url "${request.url}"`);
@@ -33,10 +26,9 @@ export async function resumeChat(request: HttpRequest, context: InvocationContex
 
     // Save the request message to Azure Table Storage.
     const history: HistoryEntity[] = [];
-    var rowKeyValue = (maxDate.getTime() - (new Date()).getTime()).toString();
     history.push({
         PartitionKey: context.functionName,
-        RowKey: rowKeyValue,
+        RowKey: getRowKeyValue(),
         Prompt: prompt,
         Response: JSON.stringify(cart),
         User: request.user
