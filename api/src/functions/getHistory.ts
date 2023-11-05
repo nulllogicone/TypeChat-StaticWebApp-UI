@@ -1,5 +1,5 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext, input } from "@azure/functions";
-import { HistoryEntity } from "./HistoryEntity";
+import { HistoryEntity } from "./utils/HistoryEntity";
 
 const tableInput = input.table({
     tableName: 'History',

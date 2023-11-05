@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { createLanguageModel, createJsonTranslator, processRequests } from "typechat";
 import { Cart } from "./coffeeShopSchema";
-import { HistoryEntity } from "./HistoryEntity";
+import { HistoryEntity } from "./utils/HistoryEntity";
 
 const maxDate = new Date("9999-12-31");
 const model = createLanguageModel(process.env);
