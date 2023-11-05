@@ -26,6 +26,15 @@
         <span id="spinner" style="display: none;">Loading...</span>
         <textarea id="outputText" placeholder="API response will be shown here..." readonly></textarea>
 
+        <h2>Schema</h2>
+        <pre>   
+{
+    "message": string; // the response message from backend API Function
+    "prompt": string; // echo back the prompt
+    "reason": string; // only for testing purposes
+    "user": object; // the authenticated user object
+}
+</pre>
         <h2>History</h2>
         <table>
             <thead>
@@ -41,10 +50,7 @@
     </div>
 
     <script>
-        // todo: define the backend Functions name here
-        // to call the right /api/${nameOfExample}
-        // and bind it to the PartitionKey of the History
-
+        // todo: define the backend Functions name to call here
         var nameOfTheExample = "indexChat";
     </script>
     <script src="app.js"></script>
