@@ -12,7 +12,8 @@
     "clean": "rimraf dist",
     "prestart": "npm run clean && npm run build && copyfiles src/**/*Schema.ts src/**/*.txt dist",
     "start": "func start",
-    "test": "jest"
+    "test": "jest",
+    "pretest": "tsc"
   },
   "dependencies": {
     "@azure/functions": "^4.0.0",
