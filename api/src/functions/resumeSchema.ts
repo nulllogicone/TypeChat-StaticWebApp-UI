@@ -9,6 +9,8 @@ export interface Resume {
     poem: string; // a poem of the condidate with a personal touch
     nogoes: string[]; // a list of things the candidate does not want to do
     funfacts: string[]; // a list of fun facts about the candidate
+    favorite_color: string; // the name of the favorite color of the candidate
+    favorite_star_wars_character: string; // the favorite Star Wars character of the candidate 
 }
 
 // work experience at a company with a given role and a short description of responsibilities you worked on, 
